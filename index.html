@@ -4,7 +4,8 @@
     <meta name="screen-orientation" content="portrait">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
-    <title>年会抽奖小程序</title>
+    <title>Dorabot</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/wall.css">
     <style type="text/css">
@@ -15,9 +16,10 @@
         .result {
             position: absolute;
             height: 320px;
-            width: 100%;
-            left: 0; top: 50%;
-            margin-top: -160px;
+            width: 50%;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            /* margin-top: -160px; */
             text-align: center;
             padding: 10px;
             display: none;
@@ -25,14 +27,15 @@
         .result span {
             display: inline-block;
             font-size: 25px;
-            width: 150px;
-            background: #fff;
+            width: 18%;
+            background: #3155a5;
             line-height: 30px;
-            color: #000;
+            color: #ffffff;
             margin: 5px;
             border-radius: 10px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-            padding: 10px 0;
+            padding: 1% 0;
+            box-sizing: border-box;
         }
         button, input, optgroup, select, textarea {
             color: inherit;
@@ -106,7 +109,7 @@
             background: rgb(223, 117, 20);
         }
         .button-secondary {
-            background: rgb(66, 184, 221);
+            background: #3155a5;
         }
         .tools {
             position: absolute;
@@ -131,15 +134,35 @@
         }
         .result-btn {
             margin-top: 20px;
-            text-align: right;
-            margin-right: 30px;
+            display: flex;
+            justify-content: space-between;
+            /* text-align: right; */
+            margin: 20px 30px 0 20px;
+            height:22px;
+        }
+        .result-btn a{
+            color: rgb(202, 60, 60);
+            text-decoration: none;
+        }
+        .result-btn span{
+            color: #ffffff;
+            font-size: 50px;
+            display: block;
+            margin-top: 20px;
+            /* font-weight: bold; */
+            font-family: Arial, Helvetica, sans-serif;
         }
     </style>
 </head>
 <body>
 <div id="main" class="wall">
     <div class="result-btn">
-       <a href="./result.html" target="_blank">获奖名单</a>
+        <div>
+            <img src="img/logo.png" alt="avatar" style="width:200px;">
+            <span>  TECH MAKES ONE</span>
+        </div>
+        <a href="./result.html" target="_blank">Winner List</a>
+        <!-- <img src="img/logo.png" alt="avatar" style="width:200px;"> -->
     </div>
 </div>
 <div id="result" class="result">
@@ -155,22 +178,39 @@
        class="pure-button"
        @click="toggle"
        :class="{'button-secondary': !running,
-               'button-success': running}">{{running?'停!':'开始'}}</button>
-    <button class="pure-button button-warning" @click="reset">重置</button>
+               'button-success': running}">{{running?'Stop!':'Start'}}</button>
+    <button class="pure-button button-warning" @click="reset">Reset</button>
 </div>
 <script type="text/javascript" src="js/zepto.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script type="text/javascript" src="js/tagcanvas.js"></script>
 <script type="text/javascript" src="js/member.js"></script>
+<script type="text/javascript" src="js/canvas-particle.js"></script>
+
 <script type="text/javascript">
     (function(){
+        //配置
+        var config = {
+            vx: 4,	//小球x轴速度,正为右，负为左
+            vy: 4,	//小球y轴速度
+            height: 3,	//小球高宽，其实为正方形，所以不宜太大
+            width: 3,
+            count: 800,		//点个数
+            color: "255, 255, 255", 	//点颜色
+            stroke: "49, 86, 165", 		//线条颜色
+            dist: 8000, 	//点吸附距离
+            e_dist: 20000, 	//鼠标吸附加速距离
+            max_conn: 8	//点到点最大连接数
+        }
+        //调用
+        CanvasParticle(config);
         var choosed = JSON.parse(localStorage.getItem('choosed')) || {};
-        console.log(choosed);
+        var winners= JSON.parse(localStorage.getItem('winners')) || [];
         var speed = function(){
             return [0.1 * Math.random() + 0.01, -(0.1 * Math.random() + 0.01)];
         };
         var getKey = function(item){
-            return item.name + '-' + item.phone;
+            return item.name + '-' + item.first;
         };
         var createHTML = function(){
             var html = [ '<ul>' ];
@@ -178,7 +218,7 @@
                 item.index = index;
                 var key = getKey(item);
                 var color = choosed[key] ? 'yellow' : 'white';
-                html.push('<li><a href="#" style="color: ' + color + ';">' + item.name + '</a></li>');
+                html.push('<li><a href="#" style="color: ' + color + ';"></a></li><li><a href="#"><img src="img/dorabot/'+item.first+'.png" alt="avatar" style="width: 4vw;"></a></li>');
             });
             html.push('</ul>');
             return html.join('');
@@ -203,7 +243,7 @@
                 .map(function(m){
                   choosed[getKey(m)] = 1;
                   list[m.index].style.color = color;
-                  return m.name + '<br/>' + m.phone; 
+                  return  '<img src="img/dorabot/' + m.first + '.png" alt="avatar" style="height: 8vw; border-radius: 6px"><br/>' + m.first +'<br/>'+ m.dept ; 
                 });
             localStorage.setItem('choosed', JSON.stringify(choosed));
             return ret;
@@ -216,10 +256,10 @@
         new Vue({
             el: '#tools',
             data: {
-                selected: 30,
+                selected: 10,
                 running: false,
                 btns: [
-                    30, 10, 5, 2, 1
+                    10, 5, 2, 1
                 ]
             },
             mounted () {
@@ -233,7 +273,7 @@
             },
             methods: {
                 reset: function(){
-                    if(confirm('确定要重置么？所有之前的抽奖历史将被清除！')){
+                    if(confirm('Are you sure you want to reset? All previous lottery history will be cleared!')){
                         localStorage.clear();
                         location.reload(true);
                     }
@@ -248,13 +288,16 @@
                         TagCanvas.SetSpeed('myCanvas', speed());
                         var ret = lottery(this.selected);
                         if (ret.length === 0) {
-                            $('#result').css('display', 'block').html('<span>已抽完</span>');
+                            $('#result').css('display', 'block').html('<span>Done!</span>');
                             return
                         }
                         $('#result').css('display', 'block').html('<span>' + ret.join('</span><span>') + '</span>');
                         TagCanvas.Reload('myCanvas');
                         setTimeout(function(){
                             localStorage.setItem(new Date().toString(), JSON.stringify(ret));
+                            winners.push(ret);
+                            localStorage.setItem('winners', JSON.stringify(winners));
+
                             $('#main').addClass('mask');
                         }, 300);
                     } else {

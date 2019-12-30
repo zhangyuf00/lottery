@@ -4,13 +4,18 @@
     <meta name="screen-orientation" content="portrait">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
-    <title>年会抽奖小程序</title>
+    <title>Dorabot</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/wall.css">
     <style type="text/css">
         .wall { 
             overflow: scroll;
-            background-repeat: repeat;
+            /* background-repeat: repeat;
+            background-image: url(./img/bg.jpg);
+            background-size: 100% 100%;
+            background-position: center center; */
+            /* background-repeat: no-repeat; */
         }
         ::-webkit-scrollbar {
             display: none;
@@ -19,6 +24,12 @@
             width: 100%;
             height: 100%;
         }
+        @font-face { 
+            /* font-properties */ 
+            font-family: 'qing'; 
+            src:url(‘fonts/PangMenZhengDaoQingSongTi-2.otf’), 
+            url(‘fonts/PangMenZhengDaoCuShuTi-2.ttf’); /* IE9 */ 
+        } 
         .mask {
             -webkit-filter:blur(5px);
             filter:blur(5px);
@@ -28,63 +39,108 @@
             transition: all 1s;
         }
         .result-list {
-            text-align: center;
-            color: #4de7c8;
+            /* text-align: center; */
+            width:60%;
+            margin-left: 20%;
+            color: #ffffff;
+            /* font-family: 'qing'; */
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 30px;
             line-height: 50px;
             margin-top: 50px;
             margin-bottom: 50px;
-            font-family: '幼圆';
+            /* font-family: '幼圆'; */
+        }
+        .result-list div{
+            width: 18%;
+            display: inline-block;
+            margin: 5px;
+            text-align: center;
+            /* font-family: 'qing'; */
+        }
+        .result-list .round{
+            font-weight: bold;
+            color: #3155a5;
         }
         .result-title {
+            font-family: 'qing'; 
             text-align: center;
-            color: #4de7c8;
+            color: rgb(202, 60, 60);
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 40px;
-            margin-top: 100px;
-            font-family: '幼圆';
+            margin-top: 60px;
+            font-weight: bold;
+            /* font-family: '幼圆'; */
         }
 
     </style>
 </head>
 <body>
-<div id="main" class="wall">
-    <div class="result-title">获奖名单</div>
-    <div class="result-list" v-for="result in results">
-        <div v-for="item in result">
-            {{item}}
+<div id="main" class="result">
+    </div>
+<div id="result" class="wall">
+    <div class="result-title">Winner List</div>
+    <div class="result-list" v-for="(result, index) in results">
+        <div class="round"> Round {{index+1}}:</div><br/>
+        <div v-for="item in result" v-html= "item">
+            <!-- {{item}} -->
         </div>
     </div>
 </div>
 <script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/canvas-particle.js"></script>
+
 <script type="text/javascript">
-    new Vue({
-        el: '#main',
-        data: {
-            results: []
-        },
-        mounted () {
-            let vm = this
-            let locals = window.localStorage
-            let str_results = []
-            // 遍历(排除choosed)
-            for(let i = 0; i<localStorage.length; i++){
-                if (localStorage.key(i) !== 'choosed') {
-                    str_results.push(localStorage.getItem(localStorage.key(i)))
+    (function(){
+        //配置
+        var config = {
+                vx: 4,	//小球x轴速度,正为右，负为左
+                vy: 4,	//小球y轴速度
+                height: 3,	//小球高宽，其实为正方形，所以不宜太大
+                width: 3,
+                count: 300,		//点个数
+                color: "255, 255, 255", 	//点颜色
+                stroke: "49, 86, 165", 		//线条颜色
+                dist: 6000, 	//点吸附距离
+                e_dist: 20000, 	//鼠标吸附加速距离
+                max_conn: 6	//点到点最大连接数
+            }
+        //调用
+        CanvasParticle(config);
+        new Vue({
+            el: '#result',
+            data: {
+                results: []
+            },
+            mounted () {
+                let vm = this
+                let locals = window.localStorage
+                let str_results = []
+                // 遍历(排除choosed)
+                console.log(localStorage.getItem('winners'))
+                for(let i = 0; i<localStorage.length; i++){
+                    // console.log(localStorage.key(i))
+                    if (localStorage.key(i) !== 'choosed') {
+                        str_results.push(localStorage.getItem(localStorage.key(i)))
+                    }
                 }
-            }
-            // 分割每个string, 并将</br>换成空格
-            let results = []
-            for(let nameList of str_results) {
-                let temp = JSON.parse(nameList)
-                temp = temp.map(item => {return item.replace('<br/>', ' ')})
-                results.push(temp)
-            }
-            
-            // 根据长度进行排序，名单短的放在前面
-            results = results.sort((x, y) => { return x.length - y.length;})
-            this.results = results
-        },
-    })
+                // 分割每个string, 并将</br>换成空格
+                let results = []
+                for(let nameList of str_results) {
+                    let temp = JSON.parse(nameList)
+                    // temp = temp.map(item => {return item.replace('<br/>', ' ')})
+                    results.push(temp)
+                }
+
+                let winners = localStorage.getItem('winners')
+
+                // 根据长度进行排序，名单短的放在前面
+                // results = results.sort((x, y) => { return x.length - y.length;})
+                this.results = JSON.parse(winners);
+            },
+        })
+    })()
+   
 </script>
 </body>
 </html>
