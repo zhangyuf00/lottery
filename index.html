@@ -147,6 +147,7 @@
         .result-btn span{
             color: #ffffff;
             font-size: 50px;
+            font-weight: bold;
             display: block;
             margin-top: 20px;
             /* font-weight: bold; */
@@ -159,7 +160,8 @@
     <div class="result-btn">
         <div>
             <img src="img/logo.png" alt="avatar" style="width:200px;">
-            <span>  TECH MAKES ONE</span>
+            <span>  DORATECH</span><br/>
+            <span style="font-size:30px;font-weight:normal">CONNECTED AS ONE</span>
         </div>
         <a href="./result.html" target="_blank">Winner List</a>
         <!-- <img src="img/logo.png" alt="avatar" style="width:200px;"> -->
@@ -212,6 +214,7 @@
         var getKey = function(item){
             return item.name + '-' + item.first;
         };
+        console.log(member.length)
         var createHTML = function(){
             var html = [ '<ul>' ];
             member.forEach(function(item, index){

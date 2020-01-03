@@ -1,6 +1,6 @@
 var member = [
   {"name":"ABDUL QADEER ALEEMKHAN KHAN","first":"Abdul","Last Name":"","Position":"Project Manager","dept":"Sorting"},
-  {"name":"王凯翔","first":"Alan","Last Name":"Wang","Position":"Research Scientist","dept":"Common Capability"},
+  {"name":"王凯翔","first":"Alan","Last Name":"Wang","Position":"Research Scientist","dept":"Robotics"},
   {"name":"张洪铨","first":"Alex","Last Name":"Zhang","Position":"Electronics Engineer","dept":"GZ Office"},
   {"name":"朱禧淳","first":"Amanda","Last Name":"Zhu","Position":"Ambassador","dept":"HR"},
   {"name":"张瑜","first":"Amber","Last Name":"Zhang","Position":"Web Developer","dept":"Sorting"},
@@ -25,7 +25,6 @@ var member = [
   {"name":"MUNERA SANCHEZ EDUARDO","first":"Eduadro","Last Name":"","Position":"Senior Robotics Software Engineer","dept":"GZ Office"},
   {"name":"张冠华","first":"Edward","Last Name":"Zhang","Position":"Robotics Software Engineer","dept":"GZ Office"},
   {"name":"黎尧","first":"Edwin","Last Name":"Li","Position":"Mechanical Engineer","dept":"Sorting"},
-  {"name":"EJAZ MUHAMMAD","first":"Ejaz","Last Name":"","Position":"Project Manager","dept":"R&D"},
   {"name":"张海亮","first":"Ensign","Last Name":"Zhang","Position":"Senior Project Manager","dept":"Sorting"},
   {"name":"刘启阳","first":"Eric","Last Name":"Liu","Position":"Mechanical Engineer","dept":"Sorting"},
   {"name":"皮铭","first":"Ethan","Last Name":"Pi","Position":"Senior Product Manager","dept":"GZ Office"},
@@ -69,7 +68,6 @@ var member = [
   {"name":"Katrina Lee","first":"Katrina","Last Name":"Lee","Position":"Business Partner","dept":"HK Office"},
   {"name":"孟凡超","first":"Keigo","Last Name":"Meng","Position":"Business Assistant","dept":"R&D"},
   {"name":"农科科","first":"Keke","Last Name":"Nong","Position":"Director of Sales","dept":"Sales"},
-  {"name":"张坤","first":"KenZhang","Last Name":"Zhang","Position":"Robotics Software Intern","dept":"Robotics"},
   {"name":"谭柯夫","first":"Kevin","Last Name":"Tan","Position":"Software Engineer","dept":"Sorting"},
   {"name":"潘方星","first":"Kite","Last Name":"Pan","Position":"Software Engineer","dept":"Sorting"},
   {"name":"刘国柱","first":"Kojo","Last Name":"Liu","Position":"Warehouse Assistant","dept":"Supply Chain"},

@@ -1,3 +1,4 @@
+https://zhangyuf00.github.io/lottery/
 
 ## 抽奖流程：
 

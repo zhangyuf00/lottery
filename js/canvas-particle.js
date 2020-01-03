@@ -79,8 +79,8 @@ var CanvasParticle = (function(){
 		console.log(document.body.clientHeight)
 		width = parseInt(width);
 		height = parseInt(height);
-		canvas.width = width || window.innerWeight || document.documentElement.clientWidth || document.body.clientWidth;
-		canvas.height = height || window.innerWeight || document.documentElement.clientHeight + 12  || document.body.clientHeight;
+		canvas.width = width || window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		canvas.height = height || window.innerHeight || document.documentElement.clientHeight  || document.body.clientHeight;
 	}
 
 	// 画点
