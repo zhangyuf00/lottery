@@ -214,14 +214,13 @@
         var getKey = function(item){
             return item.name + '-' + item.first;
         };
-        console.log(member.length)
         var createHTML = function(){
             var html = [ '<ul>' ];
             member.forEach(function(item, index){
                 item.index = index;
                 var key = getKey(item);
                 var color = choosed[key] ? 'yellow' : 'white';
-                html.push('<li><a href="#" style="color: ' + color + ';"></a></li><li><a href="#"><img src="img/dorabot/'+item.first+'.png" alt="avatar" style="width: 4vw;"></a></li>');
+                html.push('<li><a href="#" style="color: ' + color + ';"></a></li><li><a href="#"><img src="img/dorabot/'+item.first+'.png" alt="avatar" width="60" height="60"></a></li>');
             });
             html.push('</ul>');
             return html.join('');
