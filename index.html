@@ -215,12 +215,15 @@
             return item.name + '-' + item.first;
         };
         var createHTML = function(){
+            var width = width || window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            console.log(width)
+		    var height = height || window.innerHeight || document.documentElement.clientHeight  || document.body.clientHeight;
             var html = [ '<ul>' ];
             member.forEach(function(item, index){
                 item.index = index;
                 var key = getKey(item);
                 var color = choosed[key] ? 'yellow' : 'white';
-                html.push('<li><a href="#" style="color: ' + color + ';"></a></li><li><a href="#"><img src="img/dorabot/'+item.first+'.png" alt="avatar" width="60" height="60"></a></li>');
+                html.push(`<li><a href="#"><img src="img/dorabot/${item.first}.png" alt="avatar" width=${width/25} height=${width/25}></a></li>`);
             });
             html.push('</ul>');
             return html.join('');
